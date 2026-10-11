@@ -150,15 +150,11 @@ func (h *webhookHandler) receive(w http.ResponseWriter, r *http.Request) {
 			if change.Field != "messages" {
 				continue
 			}
-			names := make(map[string]string, len(change.Value.Contacts))
-			for _, c := range change.Value.Contacts {
-				names[c.WaID] = c.Profile.Name
-			}
 			for _, m := range change.Value.Messages {
 				if h.seen.has(m.ID) {
 					continue
 				}
-				content := formatMessage(m, names[m.From])
+				content := messageBody(m)
 				if err := h.discord.Send(r.Context(), content); err != nil {
 					// A non-2xx response makes Meta redeliver the webhook later.
 					// Already-forwarded messages are skipped via the dedupe set.
@@ -186,14 +182,6 @@ func validSignature(secret, body []byte, header string) bool {
 	mac := hmac.New(sha256.New, secret)
 	mac.Write(body)
 	return hmac.Equal(got, mac.Sum(nil))
-}
-
-func formatMessage(m message, name string) string {
-	sender := "+" + m.From
-	if name != "" {
-		sender = fmt.Sprintf("%s (+%s)", name, m.From)
-	}
-	return fmt.Sprintf("**%s**\n%s", sender, messageBody(m))
 }
 
 func messageBody(m message) string {

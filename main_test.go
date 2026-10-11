@@ -26,9 +26,9 @@ func TestMessagePrefix(t *testing.T) {
 		env  []string
 		want string
 	}{
-		{"unset", nil, "**Alice (+15551234567)**\nhello @everyone"},
-		{"empty", []string{"MESSAGE_PREFIX="}, "**Alice (+15551234567)**\nhello @everyone"},
-		{"configured_verbatim", []string{"MESSAGE_PREFIX=  [WhatsApp 📱]\n "}, "  [WhatsApp 📱]\n **Alice (+15551234567)**\nhello @everyone"},
+		{"unset", nil, "hello @everyone"},
+		{"empty", []string{"MESSAGE_PREFIX="}, "hello @everyone"},
+		{"configured_verbatim", []string{"MESSAGE_PREFIX=  [WhatsApp 📱]\n "}, "  [WhatsApp 📱]\n hello @everyone"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

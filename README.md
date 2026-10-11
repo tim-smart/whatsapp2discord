@@ -8,7 +8,7 @@ No dependencies beyond the Go standard library.
 
 - Answers Meta's webhook verification handshake (`GET /webhook`).
 - Checks the `X-Hub-Signature-256` HMAC on every `POST /webhook` and rejects anything unsigned.
-- Posts each incoming message to Discord as `**Sender name (+number)**` followed by the message.
+- Posts each incoming message to Discord without a sender name or phone number header.
   Text, button/list replies, reactions, locations and shared contacts are rendered as text.
   Images, video, audio, stickers and documents are posted as a label plus caption; the media itself is not downloaded.
 - Disables Discord mentions, so a WhatsApp sender can't ping `@everyone` or roles.
