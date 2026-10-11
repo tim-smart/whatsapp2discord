@@ -23,9 +23,12 @@ No dependencies beyond the Go standard library.
 | `WHATSAPP_VERIFY_TOKEN` | yes | Any string. Enter the same value as the "Verify token" in the Meta app's webhook settings. |
 | `WHATSAPP_APP_SECRET` | yes | The Meta app secret (App settings → Basic). Used to verify webhook signatures. |
 | `DISCORD_WEBHOOK_URL` | yes | Discord channel webhook URL (Channel settings → Integrations → Webhooks). |
+| `MESSAGE_PREFIX` | no | Prepended verbatim to every outgoing Discord message. Unset or empty leaves messages unchanged. |
 | `ADDR` | no | Listen address. Defaults to `:8080`. |
 
 `GET /healthz` returns `ok`.
+
+For example, set `MESSAGE_PREFIX="[WhatsApp] "` to label forwarded messages. Include any desired spaces or newlines in the value; no separator is added automatically. The prefix and message together are truncated to Discord's 2,000-character content limit. Mentions remain disabled, including in the prefix.
 
 ## Running
 

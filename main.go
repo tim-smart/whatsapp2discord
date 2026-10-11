@@ -19,6 +19,7 @@ type config struct {
 	verifyToken       string
 	appSecret         string
 	discordWebhookURL string
+	messagePrefix     string
 }
 
 func loadConfig() (config, error) {
@@ -27,6 +28,7 @@ func loadConfig() (config, error) {
 		verifyToken:       os.Getenv("WHATSAPP_VERIFY_TOKEN"),
 		appSecret:         os.Getenv("WHATSAPP_APP_SECRET"),
 		discordWebhookURL: os.Getenv("DISCORD_WEBHOOK_URL"),
+		messagePrefix:     os.Getenv("MESSAGE_PREFIX"),
 	}
 	if cfg.addr == "" {
 		cfg.addr = ":8080"
@@ -60,8 +62,9 @@ func main() {
 		verifyToken: cfg.verifyToken,
 		appSecret:   []byte(cfg.appSecret),
 		discord: &discordClient{
-			webhookURL: cfg.discordWebhookURL,
-			http:       &http.Client{Timeout: 10 * time.Second},
+			webhookURL:    cfg.discordWebhookURL,
+			messagePrefix: cfg.messagePrefix,
+			http:          &http.Client{Timeout: 10 * time.Second},
 		},
 		seen:   newDedupe(24 * time.Hour),
 		logger: logger,
