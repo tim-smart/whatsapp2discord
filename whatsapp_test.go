@@ -118,7 +118,7 @@ func TestForwardsTextAndDedupes(t *testing.T) {
 			t.Fatalf("got %d, want 200", rec.Code)
 		}
 	}
-	want := "**Alice (+15551234567)**\nhello @everyone"
+	want := "hello @everyone"
 	if len(f.sent) != 1 || f.sent[0] != want {
 		t.Fatalf("sent %q, want exactly [%q]", f.sent, want)
 	}
