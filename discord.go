@@ -18,8 +18,9 @@ const (
 )
 
 type discordClient struct {
-	webhookURL string
-	http       *http.Client
+	webhookURL    string
+	messagePrefix string
+	http          *http.Client
 }
 
 type discordMessage struct {
@@ -35,7 +36,7 @@ type discordAllowedMentions struct {
 // Mentions are disabled so WhatsApp senders cannot ping @everyone or roles.
 func (c *discordClient) Send(ctx context.Context, content string) error {
 	body, err := json.Marshal(discordMessage{
-		Content:         truncate(content, discordMaxContent),
+		Content:         truncate(c.messagePrefix+content, discordMaxContent),
 		AllowedMentions: discordAllowedMentions{Parse: []string{}},
 	})
 	if err != nil {
